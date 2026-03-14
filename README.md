@@ -1,0 +1,1 @@
+# game-platform-trust-score-service
