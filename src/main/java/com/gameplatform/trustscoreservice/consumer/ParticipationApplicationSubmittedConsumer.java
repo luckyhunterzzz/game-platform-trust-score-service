@@ -21,7 +21,8 @@ public class ParticipationApplicationSubmittedConsumer {
     )
     public void handle(ParticipationApplicationSubmittedEvent event) {
         log.info(
-                "Received ParticipationApplicationSubmittedEvent: eventId={}, applicationId={}, offerId={}, applicantUserId={}",
+                "Received ParticipationApplicationSubmittedEvent: " +
+                        "eventId={}, applicationId={}, offerId={}, applicantUserId={}",
                 event.eventId(),
                 event.applicationId(),
                 event.offerId(),

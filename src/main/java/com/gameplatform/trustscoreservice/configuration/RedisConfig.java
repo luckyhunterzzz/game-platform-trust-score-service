@@ -16,8 +16,7 @@ public class RedisConfig {
 
     @Bean
     public RedisTemplate<String, TrustScoreSnapshot> trustScoreRedisTemplate(
-            RedisConnectionFactory connectionFactory
-    ) {
+            RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, TrustScoreSnapshot> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 

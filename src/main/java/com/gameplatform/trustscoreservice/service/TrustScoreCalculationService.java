@@ -30,30 +30,32 @@ public class TrustScoreCalculationService {
             OffsetDateTime calculatedAt = OffsetDateTime.now();
             UUID calculatedEventId = UUID.randomUUID();
 
-            TrustScoreSnapshot snapshot = new TrustScoreSnapshot(
-                    event.applicantUserId(),
-                    result.score(),
-                    result.riskLevel(),
-                    result.recommendation(),
-                    calculatedAt,
-                    event.eventId(),
-                    event.applicationId(),
-                    event.offerId()
-            );
+            TrustScoreSnapshot snapshot = TrustScoreSnapshot.builder()
+                    .userId(event.applicantUserId())
+                    .score(result.score())
+                    .riskLevel(result.riskLevel())
+                    .recommendation(result.recommendation())
+                    .calculatedAt(calculatedAt)
+                    .sourceEventId(event.eventId())
+                    .applicationId(event.applicationId())
+                    .offerId(event.offerId())
+                    .build();
 
             trustScoreRedisRepository.save(snapshot);
 
-            TrustScoreCalculatedEvent calculatedEvent = new TrustScoreCalculatedEvent(
-                    calculatedEventId,
-                    calculatedAt,
-                    event.applicationId(),
-                    event.offerId(),
-                    event.applicantUserId(),
-                    result.score(),
-                    result.riskLevel(),
-                    result.recommendation(),
-                    event.eventId()
-            );
+            TrustScoreCalculatedEvent calculatedEvent = TrustScoreCalculatedEvent.builder()
+                    .eventId(calculatedEventId)
+                    .occurredAt(calculatedAt)
+                    .applicationId(event.applicationId())
+                    .offerId(event.offerId())
+                    .userId(event.applicantUserId())
+                    .score(result.score())
+                    .riskLevel(result.riskLevel())
+                    .recommendation(result.recommendation())
+                    .sourceEventId(event.eventId())
+                    .build();
+
+
 
             trustScoreProducer.send(calculatedEvent);
 
