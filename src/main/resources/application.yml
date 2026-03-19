@@ -4,9 +4,18 @@ server:
 spring:
   application:
     name: trust-score-service
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+
+  data:
+    redis:
+      timeout: 2000ms
+
+  kafka:
+    consumer:
+      group-id: trust-score-service
+      auto-offset-reset: earliest
+    producer:
+      properties:
+        spring.json.add.type.headers: false
 
 management:
   endpoints:
@@ -17,3 +26,9 @@ management:
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{requestId}] %-5level %logger{36} - %msg%n"
+
+app:
+  kafka:
+    topics:
+      joint-purchase-events: joint-purchase-events
+      trust-score-events: trust-score-events
