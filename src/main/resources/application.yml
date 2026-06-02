@@ -21,7 +21,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,info,metrics,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 logging:
   pattern:
@@ -32,3 +35,9 @@ app:
     topics:
       joint-purchase-events: joint-purchase-events
       trust-score-events: trust-score-events
+
+sentry:
+  dsn: ${SENTRY_DSN:}
+  environment: ${SENTRY_ENVIRONMENT:local}
+  release: ${SENTRY_RELEASE:${spring.application.name}@local}
+  send-default-pii: false
